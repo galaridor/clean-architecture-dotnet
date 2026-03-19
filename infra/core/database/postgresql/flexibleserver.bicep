@@ -121,7 +121,7 @@ psql "host=$DBSERVER.postgres.database.azure.com user=$ADMINLOGIN dbname=$DBNAME
   ]
 }
 
-resource administratorLoginPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
+resource administratorLoginPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2022-11-01' = {
   parent: keyVault
   name: 'dbAdminPassword'
   properties: {
@@ -129,7 +129,7 @@ resource administratorLoginPasswordSecret 'Microsoft.KeyVault/vaults/secrets@202
   }
 }
 
-resource appUserLoginPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
+resource appUserLoginPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2022-11-01' = {
   parent: keyVault
   name: 'dbAppUserPassword'
   properties: {
@@ -137,7 +137,7 @@ resource appUserLoginPasswordSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-0
   }
 }
 
-resource sqlAzureConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
+resource sqlAzureConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2022-11-01' = {
   parent: keyVault
   name: connectionStringKey
   properties: {
@@ -145,7 +145,7 @@ resource sqlAzureConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2022-
   }
 }
 
-resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
+resource keyVault 'Microsoft.KeyVault/vaults@2022-11-01' existing = {
   name: keyVaultName
 }
 

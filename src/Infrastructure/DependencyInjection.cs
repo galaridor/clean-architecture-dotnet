@@ -15,8 +15,8 @@ public static class DependencyInjection
 {
     public static void AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("CleanArchitectureDb");
-        Guard.Against.Null(connectionString, message: "Connection string 'CleanArchitectureDb' not found.");
+        var connectionString = builder.Configuration.GetConnectionString(Services.Database);
+        Guard.Against.Null(connectionString, message: $"Connection string '{Services.Database}' not found.");
 
         builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
@@ -26,20 +26,18 @@ public static class DependencyInjection
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
 #if (UsePostgreSQL)
             options.UseNpgsql(connectionString);
-#elif (UseSqlite)
-            options.UseSqlite(connectionString);
-#else
+#elif (UseSqlServer)
             options.UseSqlServer(connectionString);
+#else
+            options.UseSqlite(connectionString);
 #endif
             options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         });
 
-#if (UseAspire)
-#if (UsePostgreSQL)
+#if UsePostgreSQL
         builder.EnrichNpgsqlDbContext<ApplicationDbContext>();
 #elif (UseSqlServer)
         builder.EnrichSqlServerDbContext<ApplicationDbContext>();
-#endif
 #endif
 
         builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
@@ -58,10 +56,22 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddApiEndpoints();
 #else
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+            .AddIdentityCookies();
+
+        builder.Services.AddAuthorizationBuilder();
+
         builder.Services
-            .AddDefaultIdentity<ApplicationUser>()
+            .AddIdentityCore<ApplicationUser>()
             .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddSignInManager()
+            .AddDefaultTokenProviders()
+            .AddApiEndpoints();
 #endif
 
         builder.Services.AddSingleton(TimeProvider.System);

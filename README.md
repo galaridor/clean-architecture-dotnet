@@ -6,7 +6,9 @@
 [![Nuget](https://img.shields.io/nuget/dt/Clean.Architecture.Solution.Template?label=Downloads)](https://www.nuget.org/packages/Clean.Architecture.Solution.Template)
 ![Twitter Follow](https://img.shields.io/twitter/follow/jasontaylordev?label=Follow&style=social)
 
-The goal of this template is to provide a straightforward and efficient approach to enterprise application development, leveraging the power of Clean Architecture and ASP.NET Core. Using this template, you can effortlessly create a Single Page App (SPA) with ASP.NET Core and Angular or React, while adhering to the principles of Clean Architecture. Getting started is easy - simply install the **.NET template** (see below for full details).
+The goal of this template is to provide a straightforward and efficient approach to enterprise application development, leveraging the power of Clean Architecture and ASP.NET Core. Using this template, you can effortlessly create a new app with Angular, React, or Web API only, powered by ASP.NET Core and Aspire. Getting started is easy - simply install the **.NET template** (see below for full details).
+
+For full documentation, visit **[cleanarchitecture.jasontaylor.dev](https://cleanarchitecture.jasontaylor.dev)**.
 
 If you find this project useful, please give it a star. Thanks! ⭐
 
@@ -41,7 +43,7 @@ dotnet new ca-sln -cf None -o YourProjectName
 
 Launch the app:
 ```bash
-cd src/Web
+cd src/AppHost
 dotnet run
 ```
 
@@ -69,7 +71,7 @@ dotnet new ca-usecase --help
 
 ## Database
 
-The template supports [PostgreSQL](https://www.postgresql.org), [SQLite](https://www.sqlite.org/), and [SQL Server](https://learn.microsoft.com/en-us/sql/sql-server/what-is-sql-server) (default option). Specify the database to use with the `--database` option:
+The template supports [PostgreSQL](https://www.postgresql.org), [SQLite](https://www.sqlite.org/) (default), and [SQL Server](https://learn.microsoft.com/en-us/sql/sql-server/what-is-sql-server). Specify the database to use with the `--database` option:
 
 ```bash
 dotnet new ca-sln --database [postgresql|sqlite|sqlserver]
@@ -98,20 +100,34 @@ azd auth login
 azd up
 ```
 
+To set up a CI/CD pipeline (GitHub Actions or Azure DevOps):
+
+```bash
+azd pipeline config
+```
+
+## API Documentation
+
+This template includes built-in API documentation using [ASP.NET Core OpenAPI](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/overview) and [Scalar](https://scalar.com/). Once the application is running, navigate to `/scalar` to explore the API using the Scalar UI.
+
+The OpenAPI specification is generated at build time and written to `wwwroot/openapi/v1.json`.
+
 ## Technologies
 
-* [ASP.NET Core 9](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
-* [Entity Framework Core 9](https://docs.microsoft.com/en-us/ef/core/)
-* [Angular 18](https://angular.dev/) or [React 18](https://react.dev/)
+* [ASP.NET Core 10](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
+* [Aspire](https://aspire.dev)
+* [Entity Framework Core 10](https://docs.microsoft.com/en-us/ef/core/)
+* [Angular 21](https://angular.dev/) or [React 19](https://react.dev/)
 * [MediatR](https://github.com/jbogard/MediatR)
 * [AutoMapper](https://automapper.org/)
 * [FluentValidation](https://fluentvalidation.net/)
-* [NUnit](https://nunit.org/), [Shoudly](https://docs.shouldly.org/), [Moq](https://github.com/devlooped/moq) & [Respawn](https://github.com/jbogard/Respawn)
+* [NUnit](https://nunit.org/), [Shouldly](https://docs.shouldly.org/), [Moq](https://github.com/devlooped/moq) & [Respawn](https://github.com/jbogard/Respawn)
+* [Scalar](https://scalar.com/)
 
 ## Versions
 The main branch is now on .NET 10.0. The following previous versions are available:
 
-* [9.0](https://github.com/jasontaylordev/CleanArchitecture/tree/net8.0)
+* [9.0](https://github.com/jasontaylordev/CleanArchitecture/tree/net9.0)
 * [8.0](https://github.com/jasontaylordev/CleanArchitecture/tree/net8.0)
 * [7.0](https://github.com/jasontaylordev/CleanArchitecture/tree/net7.0)
 * [6.0](https://github.com/jasontaylordev/CleanArchitecture/tree/net6.0)
@@ -120,8 +136,8 @@ The main branch is now on .NET 10.0. The following previous versions are availab
 
 ## Learn More
 
+* [Clean Architecture Solution Template Documentation](https://cleanarchitecture.jasontaylor.dev)
 * [Clean Architecture with ASP.NET Core 3.0 (GOTO 2019)](https://youtu.be/dK4Yb6-LxAk)
-* [Clean Architecture with .NET Core: Getting Started](https://jasontaylor.dev/clean-architecture-getting-started/)
 
 ## Support
 
@@ -130,3 +146,4 @@ If you are having problems, please let me know by [raising a new issue](https://
 ## License
 
 This project is licensed with the [MIT license](LICENSE).
+

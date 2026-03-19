@@ -5,7 +5,7 @@ param keyVaultName string
 param permissions object = { secrets: [ 'get', 'list' ] }
 param principalId string
 
-resource keyVaultAccessPolicies 'Microsoft.KeyVault/vaults/accessPolicies@2022-07-01' = {
+resource keyVaultAccessPolicies 'Microsoft.KeyVault/vaults/accessPolicies@2022-11-01' = {
   parent: keyVault
   name: name
   properties: {
@@ -17,6 +17,6 @@ resource keyVaultAccessPolicies 'Microsoft.KeyVault/vaults/accessPolicies@2022-0
   }
 }
 
-resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
+resource keyVault 'Microsoft.KeyVault/vaults@2022-11-01' existing = {
   name: keyVaultName
 }
